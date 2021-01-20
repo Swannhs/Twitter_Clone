@@ -1,8 +1,13 @@
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render
 
-
 # Create your views here.
+from tweets.models import Tweet
+
+
 def home(request, *args, **kwargs):
-    print(args,kwargs)
-    return HttpResponse('<h1>hello</h1>')
+    data = {
+        'message': 'Hello word',
+    }
+
+    return JsonResponse(data, status=200)

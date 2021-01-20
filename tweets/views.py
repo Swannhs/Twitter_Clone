@@ -5,13 +5,16 @@ from django.shortcuts import render
 from tweets.models import Tweet
 
 
-def home(request, *args, **kwargs):
-    return HttpResponse(f'<h2>hi</h2>')
+def list_view(request, *args, **kwargs):
+    all_list = Tweet.objects.all();
+    tweet_list = [{'id': x.id, 'content': x.content} for x in all_list]
+    data = {
+        'response': tweet_list
+    }
+    return JsonResponse(data)
 
-    # return JsonResponse(data, status=200)
 
-
-def view(request, tweet_id, *args, **kwargs):
+def details_view(request, tweet_id, *args, **kwargs):
     data = {
         'id': tweet_id,
     }
@@ -23,4 +26,4 @@ def view(request, tweet_id, *args, **kwargs):
         data['message'] = 'Not found'
         status = 404
 
-    return JsonResponse(data,status=status)
+    return JsonResponse(data, status=status)

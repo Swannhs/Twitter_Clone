@@ -12,13 +12,15 @@ def home(request, *args, **kwargs):
 
 
 def view(request, tweet_id, *args, **kwargs):
-    try:
-        obj = Tweet.objects.get(id=tweet_id)
-    except:
-        raise Http404
-
     data = {
         'id': tweet_id,
-        'content': obj.content
     }
-    return JsonResponse(data)
+    status = 202
+    try:
+        obj = Tweet.objects.get(id=tweet_id)
+        data['content'] = obj.content
+    except:
+        data['message'] = 'Not found'
+        status = 404
+
+    return JsonResponse(data,status=status)
